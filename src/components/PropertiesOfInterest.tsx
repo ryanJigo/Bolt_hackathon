@@ -17,6 +17,7 @@ import {
   AlertCircle,
   XCircle,
   RotateCcw,
+  DollarSign,
 } from "lucide-react";
 import { useUser } from "@clerk/clerk-react";
 import { useSupabaseClient } from "../lib/supabase";
@@ -32,6 +33,7 @@ interface Property {
   price_per_sf?: string | null;
   monthly_cost?: string | null;
   expected_monthly_cost?: string | null;
+  lease_contract_value?: string | null;
   contract_term?: string | null;
   availability?: string | null;
   lease_type?: "Direct Lease" | "Sublease" | "Sub-sublease" | "Coworking" | null;
@@ -66,6 +68,7 @@ interface PropertyFormData {
   price_per_sf: string;
   monthly_cost: string;
   expected_monthly_cost: string;
+  lease_contract_value: string;
   contract_term: string;
   availability: string;
   lease_type: "Direct Lease" | "Sublease" | "Sub-sublease" | "Coworking" | "";
@@ -111,6 +114,7 @@ export const PropertiesOfInterest: React.FC<PropertiesOfInterestProps> = ({
     price_per_sf: "",
     monthly_cost: "",
     expected_monthly_cost: "",
+    lease_contract_value: "",
     contract_term: "",
     availability: "",
     lease_type: "",
@@ -212,6 +216,7 @@ export const PropertiesOfInterest: React.FC<PropertiesOfInterestProps> = ({
       price_per_sf: "",
       monthly_cost: "",
       expected_monthly_cost: "",
+      lease_contract_value: "",
       contract_term: "",
       availability: "",
       lease_type: "",
@@ -249,6 +254,7 @@ export const PropertiesOfInterest: React.FC<PropertiesOfInterestProps> = ({
       price_per_sf: property.price_per_sf || "",
       monthly_cost: property.monthly_cost || "",
       expected_monthly_cost: property.expected_monthly_cost || "",
+      lease_contract_value: property.lease_contract_value || "",
       contract_term: property.contract_term || "",
       availability: property.availability || "",
       lease_type: property.lease_type || "",
@@ -288,6 +294,7 @@ export const PropertiesOfInterest: React.FC<PropertiesOfInterestProps> = ({
         price_per_sf: formData.price_per_sf.trim() || null,
         monthly_cost: formData.monthly_cost.trim() || null,
         expected_monthly_cost: formData.expected_monthly_cost.trim() || null,
+        lease_contract_value: formData.lease_contract_value.trim() || null,
         contract_term: formData.contract_term.trim() || null,
         availability: formData.availability.trim() || null,
         lease_type: formData.lease_type || null,
@@ -587,6 +594,20 @@ export const PropertiesOfInterest: React.FC<PropertiesOfInterestProps> = ({
                 <p className="text-xs text-gray-500 font-medium">Expected Monthly Cost</p>
                 <p className="text-sm text-gray-900 font-semibold">
                   {property.expected_monthly_cost}
+                </p>
+              </div>
+            </div>
+          )}
+
+          {property.lease_contract_value && (
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center">
+                <DollarSign className="w-4 h-4 text-emerald-600" />
+              </div>
+              <div>
+                <p className="text-xs text-gray-500 font-medium">Lease Contract Value</p>
+                <p className="text-sm text-gray-900 font-semibold">
+                  {property.lease_contract_value}
                 </p>
               </div>
             </div>
@@ -979,6 +1000,23 @@ export const PropertiesOfInterest: React.FC<PropertiesOfInterestProps> = ({
                       }
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       placeholder="e.g., $28,000/month"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Lease Contract Value
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.lease_contract_value}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          lease_contract_value: e.target.value,
+                        })
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="e.g., $1,200,000"
                     />
                   </div>
                   <div>
